@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cloudinary_public/cloudinary_public.dart';
+import 'package:cloudinary/cloudinary.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -38,7 +38,7 @@ void main() {
   );
 
   test('uploads an image from external url', () async {
-    final cloudinary = CloudinaryPublic(
+    final cloudinary = Cloudinary(
       cloudName,
       uploadPreset,
       dioClient: client,
@@ -65,7 +65,7 @@ void main() {
   final tempFile = getFile();
 
   test('uploads an image file', () async {
-    final cloudinary = CloudinaryPublic(
+    final cloudinary = Cloudinary(
       cloudName,
       uploadPreset,
       dioClient: client,
@@ -87,7 +87,7 @@ void main() {
   });
 
   test('uploads an image file overriding the upload_preset', () async {
-    final cloudinary = CloudinaryPublic(
+    final cloudinary = Cloudinary(
       cloudName,
       uploadPreset,
       dioClient: client,
@@ -112,7 +112,7 @@ void main() {
   });
 
   test('upload multiple image files', () async {
-    final cloudinary = CloudinaryPublic(
+    final cloudinary = Cloudinary(
       cloudName,
       uploadPreset,
       dioClient: client,
@@ -136,7 +136,7 @@ void main() {
   });
 
   test('upload multiple image byteData', () async {
-    final cloudinary = CloudinaryPublic(
+    final cloudinary = Cloudinary(
       cloudName,
       uploadPreset,
       dioClient: client,
@@ -160,7 +160,7 @@ void main() {
   });
 
   test('Test transformation', () {
-    final cloudinary = CloudinaryPublic(
+    final cloudinary = Cloudinary(
       cloudName,
       uploadPreset,
       dioClient: client,
@@ -201,7 +201,7 @@ void main() {
   });
 
   test('thumbnail shortcut', () {
-    final cloudinary = CloudinaryPublic(
+    final cloudinary = Cloudinary(
       cloudName,
       uploadPreset,
       dioClient: client,

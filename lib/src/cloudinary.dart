@@ -1,12 +1,12 @@
-import 'package:cloudinary_public/cloudinary_public.dart';
+import 'package:cloudinary/cloudinary.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import './cloudinary_response.dart';
-import '../cloudinary_public.dart';
+import '../cloudinary.dart';
 
 /// The base class for this package
-class CloudinaryPublic {
+class Cloudinary {
   /// Cloudinary api base url
   static const _baseUrl = 'https://api.cloudinary.com/v1_1';
 
@@ -25,7 +25,7 @@ class CloudinaryPublic {
   /// The Dio client to be used to upload files
   Dio dioClient;
 
-  CloudinaryPublic(
+  Cloudinary(
     this._cloudName,
     this._uploadPreset, {
     this.cache = false,
@@ -43,19 +43,22 @@ class CloudinaryPublic {
   Future<List<CloudinaryResponse>> uploadFiles(
     List<CloudinaryFile> files, {
     String uploadPreset,
+    List<String> folderNames,
   }) {
     return Future.wait(
       files.map(
-        (file) => uploadFile(file, uploadPreset: uploadPreset),
+        (file) => uploadFile(file,
+            uploadPreset: uploadPreset, folderNames: folderNames),
       ),
     );
   }
 
   /// Upload the cloudinary file to using the public api
-  /// Override the default upload preset (when [CloudinaryPublic] is instantiated) with this one (if specified).
+  /// Override the default upload preset (when [Cloudinary] is instantiated) with this one (if specified).
   Future<CloudinaryResponse> uploadFile(
     CloudinaryFile file, {
     String uploadPreset,
+    List<String> folderNames,
   }) async {
     if (cache) {
       assert(file.identifier != null, 'identifier is required for caching');
@@ -68,6 +71,16 @@ class CloudinaryPublic {
       'file': file.toMultipartFile() ?? file.url,
       'upload_preset': uploadPreset ?? _uploadPreset,
     });
+
+    if (folderNames != null && folderNames.isNotEmpty) {
+      formData.fields
+          .add(MapEntry<String, String>('folder', folderNames.join('/')));
+      formData.fields.add(MapEntry<String, String>(
+          'public_id', folderNames.join('/') + '/' + file.identifier));
+    } else {
+      formData.fields
+          .add(MapEntry<String, String>('public_id', file.identifier));
+    }
 
     if (file.tags != null && file.tags.isNotEmpty) {
       formData.fields
@@ -95,18 +108,22 @@ class CloudinaryPublic {
   Future<CloudinaryResponse> uploadFutureFile(
     Future<CloudinaryFile> file, {
     String uploadPreset,
+    List<String> folderNames,
   }) async {
-    return uploadFile(await file, uploadPreset: uploadPreset);
+    return uploadFile(await file,
+        uploadPreset: uploadPreset, folderNames: folderNames);
   }
 
   /// Upload multiple files using simultaneously [uploadFutureFile]
   Future<List<CloudinaryResponse>> multiUpload(
     List<Future<CloudinaryFile>> files, {
     String uploadPreset,
+    List<String> folderNames,
   }) async {
     return Future.wait(
       files.map(
-        (file) => uploadFutureFile(file, uploadPreset: uploadPreset),
+        (file) => uploadFutureFile(file,
+            uploadPreset: uploadPreset, folderNames: folderNames),
       ),
     );
   }

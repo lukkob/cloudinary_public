@@ -1,7 +1,7 @@
-name: cloudinary_public
+name: cloudinary
 description: This package allows you to upload media files directly to cloudinary, without exposing your apiKey or secretKey.
 version: 0.6.2
-homepage: https://github.com/djade007/cloudinary_public
+homepage: https://github.com/lukkob/cloudinary_sdk
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

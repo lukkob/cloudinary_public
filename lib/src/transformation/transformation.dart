@@ -1,4 +1,4 @@
-import '../../cloudinary_public.dart';
+import '../../cloudinary.dart';
 
 class Transformation {
   final String _path;

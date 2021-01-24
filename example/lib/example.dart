@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:cloudinary_public/cloudinary_public.dart';
+import 'package:cloudinary/cloudinary.dart';
 import 'package:flutter/services.dart';
 
 main() async {
   // set cache as true if you don't want to make an upload call with files of the same filename
   // in such case if the filepath/identifier has already been uploaded before, you simply get the previously cached response.
   var cloudinary =
-      CloudinaryPublic('CLOUD_NAME', 'UPLOAD_PRESET', cache: false);
+      Cloudinary('CLOUD_NAME', 'UPLOAD_PRESET', cache: false);
 
   // Using a file. For example, gotten from: https://pub.dev/packages/image_picker
   File file = File('');
